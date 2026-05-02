@@ -6,13 +6,20 @@ import {
   Button, Typography, Box, Chip, alpha, useTheme,
   IconButton, Divider, Tooltip
 } from '@mui/material';
-import { 
-  X, Share2, Copy, Calendar, Clock, BarChart2,
-  ChevronLeft, ChevronRight, Info
-} from 'lucide-react';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import ShareRoundedIcon from '@mui/icons-material/ShareRounded';
+import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
+import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
+import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
+import BarChartRoundedIcon from '@mui/icons-material/BarChartRounded';
+import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
+import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import { Notification } from '@/types';
 import { format } from 'date-fns';
 import { Log } from 'logging_middleware';
+import { priorityBreakdown } from '@/utils/priorityScore';
+import type { SxProps } from '@mui/material/styles';
 
 interface NotificationModalProps {
   notification: Notification | null;
@@ -37,6 +44,8 @@ export const NotificationModal: React.FC<NotificationModalProps> = ({
     navigator.clipboard.writeText(notification.message);
     Log("frontend", "info", "component", `Notification content copied to clipboard`);
   };
+
+  const breakdown = priorityBreakdown(notification, allNotifications);
 
   const currentIndex = allNotifications.findIndex(n => n.id === notification.id);
   const hasNext = currentIndex !== -1 && currentIndex < allNotifications.length - 1;
@@ -81,13 +90,13 @@ export const NotificationModal: React.FC<NotificationModalProps> = ({
         </Box>
         <Box>
           <IconButton onClick={handlePrev} disabled={!hasPrev} size="small" sx={{ mr: 1 }}>
-            <ChevronLeft size={20} />
+            <ChevronLeftRoundedIcon fontSize="small" />
           </IconButton>
           <IconButton onClick={handleNext} disabled={!hasNext} size="small" sx={{ mr: 2 }}>
-            <ChevronRight size={20} />
+            <ChevronRightRoundedIcon fontSize="small" />
           </IconButton>
           <IconButton onClick={onClose} size="small" sx={{ bgcolor: alpha(theme.palette.error.main, 0.1), color: 'error.main', '&:hover': { bgcolor: alpha(theme.palette.error.main, 0.2) } }}>
-            <X size={20} />
+            <CloseRoundedIcon fontSize="small" />
           </IconButton>
         </Box>
       </DialogTitle>
@@ -102,11 +111,11 @@ export const NotificationModal: React.FC<NotificationModalProps> = ({
               sx={{ fontWeight: 800, px: 1 }} 
             />
             <Typography variant="caption" sx={{ color: 'text.secondary', display: 'flex', alignItems: 'center', gap: 0.5, fontWeight: 500 }}>
-              <Calendar size={14} />
+              <CalendarMonthRoundedIcon sx={{ fontSize: 16 }} />
               {format(new Date(notification.timestamp), 'PPP')}
             </Typography>
             <Typography variant="caption" sx={{ color: 'text.secondary', display: 'flex', alignItems: 'center', gap: 0.5, fontWeight: 500 }}>
-              <Clock size={14} />
+              <AccessTimeRoundedIcon sx={{ fontSize: 16 }} />
               {format(new Date(notification.timestamp), 'p')}
             </Typography>
           </Box>
@@ -119,44 +128,44 @@ export const NotificationModal: React.FC<NotificationModalProps> = ({
 
           <Box sx={{ p: 3, bgcolor: alpha(theme.palette.primary.main, 0.03), borderRadius: 4, border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}` }}>
             <Typography variant="subtitle2" sx={{ mb: 3, display: 'flex', alignItems: 'center', gap: 1, fontWeight: 800 }}>
-              <BarChart2 size={18} color={theme.palette.primary.main} />
+              <BarChartRoundedIcon sx={{ fontSize: 20, color: theme.palette.primary.main }} />
               Smart Priority Analysis
               <Tooltip title="Priority score is calculated based on type weight, recency, and urgency keywords.">
                 <IconButton size="small" sx={{ p: 0.5 }}>
-                  <Info size={14} />
+                  <InfoRoundedIcon sx={{ fontSize: 16 }} />
                 </IconButton>
               </Tooltip>
             </Typography>
             
-            <Stack spacing={2}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant="body2" color="text.secondary">Base Weight ({notification.type})</Typography>
                 <Typography variant="body2" sx={{ fontWeight: 700 }}>
-                  {notification.type === 'Placement' ? '300' : notification.type === 'Result' ? '200' : '100'} pts
+                  {breakdown.typeContribution} pts
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant="body2" color="text.secondary">Recency Bonus</Typography>
                 <Typography variant="body2" sx={{ fontWeight: 700, color: 'success.main' }}>
-                  +{Math.max(0, (notification.priorityScore || 0) - (notification.type === 'Placement' ? 300 : notification.type === 'Result' ? 200 : 100)).toFixed(0)} pts
+                  +{breakdown.recencyScore} pts
                 </Typography>
               </Box>
               <Box sx={{ pt: 1, mt: 1, borderTop: `1px dashed ${theme.palette.divider}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant="subtitle1" sx={{ fontWeight: 900 }}>Total Priority Score</Typography>
                 <Typography variant="h5" color="primary" sx={{ fontWeight: 900 }}>
-                  {notification.priorityScore?.toFixed(0) || '0'}
+                  {breakdown.total.toFixed(0)}
                 </Typography>
               </Box>
-            </Stack>
+            </Box>
           </Box>
         </Box>
       </DialogContent>
 
       <DialogActions sx={{ p: 3, bgcolor: alpha(theme.palette.background.default, 0.5), gap: 1 }}>
-        <Button startIcon={<Copy size={18} />} onClick={handleCopy} variant="outlined" sx={{ borderRadius: 3 }}>
+        <Button startIcon={<ContentCopyRoundedIcon />} onClick={handleCopy} variant="outlined" sx={{ borderRadius: 3 }}>
           Copy
         </Button>
-        <Button startIcon={<Share2 size={18} />} variant="outlined" sx={{ borderRadius: 3 }}>
+        <Button startIcon={<ShareRoundedIcon />} variant="outlined" sx={{ borderRadius: 3 }}>
           Share
         </Button>
         <Box sx={{ flexGrow: 1 }} />
