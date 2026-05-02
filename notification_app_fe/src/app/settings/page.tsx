@@ -51,7 +51,7 @@ export default function SettingsPage() {
       </Box>
 
       <Grid container spacing={4}>
-        <Grid item xs={12} md={7}>
+        <Grid size={{ xs: 12, md: 7 }}>
           <Stack spacing={3}>
             <Paper sx={{ p: 4, borderRadius: 4 }}>
               <Typography variant="h6" sx={{ fontWeight: 800, mb: 3, display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -137,7 +137,7 @@ export default function SettingsPage() {
           </Stack>
         </Grid>
 
-        <Grid item xs={12} md={5}>
+        <Grid size={{ xs: 12, md: 5 }}>
           <Card sx={{ bgcolor: alpha(theme.palette.primary.main, 0.05), border: 'none', boxShadow: 'none' }}>
             <CardContent sx={{ p: 4 }}>
               <Typography variant="h6" sx={{ fontWeight: 800, mb: 3, display: 'flex', alignItems: 'center', gap: 1 }}>

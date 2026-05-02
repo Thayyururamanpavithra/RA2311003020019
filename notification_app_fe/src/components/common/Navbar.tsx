@@ -123,8 +123,10 @@ export const Navbar: React.FC = () => {
         anchor="right"
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        PaperProps={{
-          sx: { width: 250, bgcolor: 'background.default' }
+        slotProps={{
+          paper: {
+            sx: { width: 250, bgcolor: 'background.default' }
+          }
         }}
       >
         <Box sx={{ p: 2 }}>

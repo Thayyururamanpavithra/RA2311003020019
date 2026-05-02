@@ -1,7 +1,8 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
-import { fetchNotifications, Notification } from '../utils/api';
+import { fetchNotifications } from '../utils/api';
+import { Notification } from '../types';
 import { Log } from 'logging_middleware';
 
 interface NotificationContextType {

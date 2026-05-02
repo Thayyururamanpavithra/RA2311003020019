@@ -4,7 +4,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { 
   Typography, Box, Grid, TextField, InputAdornment, 
   Chip, Stack, Skeleton, Pagination, MenuItem, Select,
-  FormControl, InputLabel, Button, alpha, useTheme
+  FormControl, InputLabel, Button, alpha, useTheme, Paper
 } from '@mui/material';
 import { Search, Filter, RefreshCw, XCircle } from 'lucide-react';
 import { useNotificationsContext } from '@/context/NotificationContext';
@@ -86,24 +86,26 @@ export default function AllNotificationsPage() {
       </Box>
 
       <Paper sx={{ p: 3, mb: 4, borderRadius: 4 }}>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12} md={4}>
+        <Grid container spacing={2} sx={{ alignItems: 'center' }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <TextField
               fullWidth
               placeholder="Search notifications..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Search size={20} />
-                  </InputAdornment>
-                ),
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Search size={20} />
+                    </InputAdornment>
+                  ),
+                }
               }}
               size="small"
             />
           </Grid>
-          <Grid item xs={12} md={8}>
+          <Grid size={{ xs: 12, md: 8 }}>
             <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1 }}>
               {['All', 'Placement', 'Result', 'Event'].map((type) => (
                 <Chip

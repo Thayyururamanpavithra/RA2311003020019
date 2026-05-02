@@ -73,25 +73,25 @@ export default function DashboardPage() {
       </Box>
 
       <Grid container spacing={3} sx={{ mb: 6 }}>
-        <Grid item xs={12} sm={6} md={2.4}>
+        <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
           <StatCard title="Total" value={stats.total} icon={Activity} color={theme.palette.primary.main} />
         </Grid>
-        <Grid item xs={12} sm={6} md={2.4}>
+        <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
           <StatCard title="Placements" value={stats.placement} icon={Briefcase} color="#10b981" delay={0.1} />
         </Grid>
-        <Grid item xs={12} sm={6} md={2.4}>
+        <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
           <StatCard title="Results" value={stats.result} icon={Trophy} color="#3b82f6" delay={0.2} />
         </Grid>
-        <Grid item xs={12} sm={6} md={2.4}>
+        <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
           <StatCard title="Events" value={stats.event} icon={Calendar} color="#f59e0b" delay={0.3} />
         </Grid>
-        <Grid item xs={12} sm={6} md={2.4}>
+        <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
           <StatCard title="Unread" value={stats.unread} icon={Bell} color="#ef4444" delay={0.4} />
         </Grid>
       </Grid>
 
       <Grid container spacing={4}>
-        <Grid item xs={12} md={7}>
+        <Grid size={{ xs: 12, md: 7 }}>
           <Paper sx={{ p: 4, height: '100%' }}>
             <Typography variant="h6" sx={{ fontWeight: 800, mb: 4, display: 'flex', alignItems: 'center', gap: 1 }}>
               <TrendingUp size={20} />
@@ -120,7 +120,7 @@ export default function DashboardPage() {
           </Paper>
         </Grid>
 
-        <Grid item xs={12} md={5}>
+        <Grid size={{ xs: 12, md: 5 }}>
           <Paper sx={{ p: 4, height: '100%' }}>
             <Typography variant="h6" sx={{ fontWeight: 800, mb: 4 }}>
               Recent Activity

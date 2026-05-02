@@ -33,11 +33,13 @@ export const NotificationModal: React.FC<NotificationModalProps> = ({ notificati
       onClose={onClose}
       maxWidth="sm"
       fullWidth
-      PaperProps={{
-        sx: {
-          borderRadius: 4,
-          background: theme.palette.mode === 'dark' ? alpha('#1e293b', 0.9) : alpha('#ffffff', 0.9),
-          backdropFilter: 'blur(20px)',
+      slotProps={{
+        paper: {
+          sx: {
+            borderRadius: 4,
+            background: theme.palette.mode === 'dark' ? alpha('#1e293b', 0.9) : alpha('#ffffff', 0.9),
+            backdropFilter: 'blur(20px)',
+          }
         }
       }}
     >

@@ -58,8 +58,8 @@ export default function PriorityInboxPage() {
             mb: 4
           }}
         >
-          <Grid container spacing={4} alignItems="center">
-            <Grid item xs={12} md={8}>
+          <Grid container spacing={4} sx={{ alignItems: 'center' }}>
+            <Grid size={{ xs: 12, md: 8 }}>
               <Typography variant="h5" sx={{ fontWeight: 800, mb: 1 }}>Top-N Intelligent Ranking</Typography>
               <Typography variant="body1" sx={{ opacity: 0.9, mb: 3 }}>
                 Our algorithm analyzes base priority, recency, and impact to show you the most critical updates first.
@@ -80,7 +80,7 @@ export default function PriorityInboxPage() {
                 <Typography variant="h2" sx={{ fontWeight: 900 }}>{n}</Typography>
               </Box>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Box sx={{ p: 2, bgcolor: alpha('#fff', 0.1), borderRadius: 3, backdropFilter: 'blur(10px)' }}>
                 <Typography variant="subtitle2" sx={{ fontWeight: 800, mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
                   <Info size={18} />
