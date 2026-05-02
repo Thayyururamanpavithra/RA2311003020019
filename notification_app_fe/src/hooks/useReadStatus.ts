@@ -10,26 +10,46 @@ export const useReadStatus = () => {
       if (stored) {
         setViewedIds(new Set(JSON.parse(stored)));
       }
-    } catch (e) {
-      Log("frontend", "error", "hook", "Failed to load viewed notifications from localStorage");
+    } catch {
+      Log('frontend', 'error', 'hook', 'Failed to load viewed notifications from localStorage');
     }
   }, []);
 
-  const markAsRead = useCallback((id: string) => {
-    setViewedIds((prev) => {
-      const next = new Set(prev);
-      next.add(id);
-      localStorage.setItem('viewedNotifications', JSON.stringify(Array.from(next)));
-      Log("frontend", "info", "state", `Notification ID ${id} marked as read`);
-      return next;
-    });
+  const persist = useCallback((next: Set<string>) => {
+    localStorage.setItem('viewedNotifications', JSON.stringify(Array.from(next)));
   }, []);
+
+  const markAsRead = useCallback(
+    (id: string) => {
+      setViewedIds((prev) => {
+        const next = new Set(prev);
+        next.add(id);
+        persist(next);
+        Log('frontend', 'info', 'state', `Notification ID ${id} marked as read`);
+        return next;
+      });
+    },
+    [persist]
+  );
+
+  const markAsUnread = useCallback(
+    (id: string) => {
+      setViewedIds((prev) => {
+        const next = new Set(prev);
+        next.delete(id);
+        persist(next);
+        Log('frontend', 'info', 'state', `Notification ID ${id} marked as unread`);
+        return next;
+      });
+    },
+    [persist]
+  );
 
   const clearReadHistory = useCallback(() => {
     setViewedIds(new Set());
     localStorage.removeItem('viewedNotifications');
-    Log("frontend", "info", "state", "Read history cleared");
+    Log('frontend', 'info', 'state', 'Read history cleared');
   }, []);
 
-  return { viewedIds, markAsRead, clearReadHistory };
+  return { viewedIds, markAsRead, markAsUnread, clearReadHistory };
 };

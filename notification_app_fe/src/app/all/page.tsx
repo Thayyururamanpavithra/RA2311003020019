@@ -3,11 +3,15 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { 
   Typography, Box, Grid, TextField, InputAdornment, 
-  Chip, Stack, Skeleton, Pagination, MenuItem, Select,
+  Chip, Skeleton, Pagination, MenuItem, Select,
   FormControl, InputLabel, Button, alpha, useTheme, Paper,
   IconButton, Tooltip
 } from '@mui/material';
-import { Search, Filter, RefreshCw, XCircle, Trash2, History } from 'lucide-react';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import RefreshRoundedIcon from '@mui/icons-material/RefreshRounded';
+import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import HistoryRoundedIcon from '@mui/icons-material/HistoryRounded';
 import { useNotificationsContext } from '@/context/NotificationContext';
 import { NotificationCard } from '@/components/notifications/NotificationCard';
 import { NotificationModal } from '@/components/notifications/NotificationModal';
@@ -100,7 +104,7 @@ export default function AllNotificationsPage() {
         </Box>
         <Button 
           variant="contained"
-          startIcon={<RefreshCw size={18} className={loading ? 'animate-spin' : ''} />} 
+          startIcon={<RefreshRoundedIcon fontSize="small" />} 
           onClick={handleRefresh}
           disabled={loading}
           sx={{ px: 4, py: 1.5, borderRadius: 3 }}
@@ -122,7 +126,7 @@ export default function AllNotificationsPage() {
                 input: {
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Search size={20} color={theme.palette.primary.main} />
+                      <SearchRoundedIcon sx={{ fontSize: 20, color: theme.palette.primary.main }} />
                     </InputAdornment>
                   ),
                 }
@@ -131,7 +135,7 @@ export default function AllNotificationsPage() {
             />
             {recentSearches.length > 0 && (
               <Box sx={{ mt: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
-                <History size={14} color={theme.palette.text.secondary} />
+                <HistoryRoundedIcon sx={{ fontSize: 16, color: theme.palette.text.secondary }} />
                 <Typography variant="caption" color="text.secondary">Recent:</Typography>
                 {recentSearches.map((s, i) => (
                   <Chip key={i} label={s} size="small" variant="outlined" onClick={() => setSearch(s)} sx={{ height: 20, fontSize: '0.65rem' }} />
@@ -140,7 +144,7 @@ export default function AllNotificationsPage() {
             )}
           </Grid>
           <Grid size={{ xs: 12, lg: 8 }}>
-            <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1.5, alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, alignItems: 'center' }}>
               <Typography variant="subtitle2" sx={{ mr: 1, fontWeight: 700, display: { xs: 'none', sm: 'block' } }}>Filter:</Typography>
               {['All', 'Placement', 'Result', 'Event'].map((type) => (
                 <Chip
@@ -179,24 +183,24 @@ export default function AllNotificationsPage() {
               {(search || typeFilter !== 'All') && (
                 <Tooltip title="Clear all filters">
                   <IconButton color="error" onClick={handleClearFilters} sx={{ bgcolor: alpha(theme.palette.error.main, 0.1) }}>
-                    <Trash2 size={18} />
+                    <DeleteRoundedIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>
               )}
-            </Stack>
+            </Box>
           </Grid>
         </Grid>
       </Paper>
 
       {loading && notifications.length === 0 ? (
-        <Stack spacing={2}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           {[1, 2, 3, 4, 5].map((i) => (
             <Skeleton key={i} variant="rectangular" height={100} sx={{ borderRadius: 4, animationDelay: `${i * 0.1}s` }} />
           ))}
-        </Stack>
+        </Box>
       ) : filtered.length === 0 ? (
         <Paper sx={{ py: 12, textAlign: 'center', borderRadius: 6, border: `2px dashed ${theme.palette.divider}`, bgcolor: 'transparent' }}>
-          <XCircle size={64} color={theme.palette.text.disabled} style={{ marginBottom: 16 }} />
+          <HighlightOffRoundedIcon sx={{ fontSize: 64, color: theme.palette.text.disabled, mb: 2 }} />
           <Typography variant="h5" sx={{ fontWeight: 800, mb: 1 }}>No results found</Typography>
           <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
             Try adjusting your search keywords or filters.
@@ -208,7 +212,7 @@ export default function AllNotificationsPage() {
       ) : (
         <Box>
           <AnimatePresence mode="popLayout">
-            <Stack spacing={2}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               {paginated.map((n, i) => (
                 <NotificationCard 
                   key={n.id} 
@@ -218,7 +222,7 @@ export default function AllNotificationsPage() {
                   delay={i * 0.05}
                 />
               ))}
-            </Stack>
+            </Box>
           </AnimatePresence>
           
           <Paper sx={{ mt: 4, p: 2, borderRadius: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>

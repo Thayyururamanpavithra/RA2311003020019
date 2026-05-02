@@ -10,10 +10,6 @@ interface ToastProps {
   onClose: () => void;
 }
 
-function TransitionLeft(props: any) {
-  return <Slide {...props} direction="left" />;
-}
-
 export const Toast: React.FC<ToastProps> = ({ open, message, severity = 'success', onClose }) => {
   return (
     <Snackbar
@@ -21,7 +17,8 @@ export const Toast: React.FC<ToastProps> = ({ open, message, severity = 'success
       autoHideDuration={4000}
       onClose={onClose}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      TransitionComponent={TransitionLeft}
+      slots={{ transition: Slide }}
+      slotProps={{ transition: { direction: 'left' } as any }}
     >
       <Alert 
         onClose={onClose} 

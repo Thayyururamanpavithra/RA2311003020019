@@ -3,12 +3,15 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { 
   Typography, Box, Grid, Slider, Paper, alpha, 
-  useTheme, Stack, Chip, Tooltip, IconButton, Divider
+  useTheme, Chip, Tooltip, IconButton, Divider, Button
 } from '@mui/material';
-import { 
-  Info, Trophy, Medal, Star, Filter, 
-  ChevronUp, ChevronDown, RefreshCw, BarChart2, Zap
-} from 'lucide-react';
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
+import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
+import MilitaryTechRoundedIcon from '@mui/icons-material/MilitaryTechRounded';
+import StarRoundedIcon from '@mui/icons-material/StarRounded';
+import BarChartRoundedIcon from '@mui/icons-material/BarChartRounded';
+import BoltRoundedIcon from '@mui/icons-material/BoltRounded';
+import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import { useNotificationsContext } from '@/context/NotificationContext';
 import { usePrioritySort } from '@/hooks/usePrioritySort';
 import { NotificationCard } from '@/components/notifications/NotificationCard';
@@ -47,9 +50,9 @@ export default function PriorityInboxPage() {
   }, [sortedNotifications]);
 
   const getRankBadge = (index: number) => {
-    if (index === 0) return { icon: <Trophy size={20} color="#fbbf24" />, label: "GOLD #1", color: "#fbbf24" };
-    if (index === 1) return { icon: <Medal size={20} color="#94a3b8" />, label: "SILVER #2", color: "#94a3b8" };
-    if (index === 2) return { icon: <Star size={20} color="#b45309" />, label: "BRONZE #3", color: "#b45309" };
+    if (index === 0) return { icon: <EmojiEventsRoundedIcon sx={{ fontSize: 22, color: "#fbbf24" }} />, label: "GOLD #1", color: "#fbbf24" };
+    if (index === 1) return { icon: <MilitaryTechRoundedIcon sx={{ fontSize: 22, color: "#94a3b8" }} />, label: "SILVER #2", color: "#94a3b8" };
+    if (index === 2) return { icon: <StarRoundedIcon sx={{ fontSize: 22, color: "#b45309" }} />, label: "BRONZE #3", color: "#b45309" };
     return { icon: null, label: `#${index + 1}`, color: theme.palette.text.secondary };
   };
 
@@ -74,7 +77,7 @@ export default function PriorityInboxPage() {
           }}
         >
           <Box sx={{ position: 'absolute', top: -20, right: -20, opacity: 0.1 }}>
-            <Zap size={200} />
+            <BoltRoundedIcon sx={{ fontSize: 220 }} />
           </Box>
           
           <Grid container spacing={4} sx={{ alignItems: 'center', position: 'relative', zIndex: 1 }}>
@@ -117,10 +120,10 @@ export default function PriorityInboxPage() {
             <Grid size={{ xs: 12, md: 4 }}>
               <Box sx={{ p: 3, bgcolor: alpha('#fff', 0.15), borderRadius: 4, backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)' }}>
                 <Typography variant="subtitle1" sx={{ fontWeight: 900, mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Info size={18} />
+                  <InfoRoundedIcon sx={{ fontSize: 18 }} />
                   Algorithm V2.1
                 </Typography>
-                <Stack spacing={1}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="caption">Base Weight</Typography>
                     <Typography variant="caption" sx={{ fontWeight: 700 }}>60%</Typography>
@@ -133,7 +136,7 @@ export default function PriorityInboxPage() {
                     <Typography variant="caption">Keyword Urgency</Typography>
                     <Typography variant="caption" sx={{ fontWeight: 700 }}>10%</Typography>
                   </Box>
-                </Stack>
+                </Box>
                 <Divider sx={{ my: 2, borderColor: 'rgba(255,255,255,0.1)' }} />
                 <Typography variant="caption" sx={{ fontStyle: 'italic', opacity: 0.8 }}>
                   Real-time recalculation every 30s
@@ -223,7 +226,7 @@ export default function PriorityInboxPage() {
                             cursor: 'help'
                           }}
                         >
-                          <BarChart2 size={14} />
+                          <BarChartRoundedIcon sx={{ fontSize: 16 }} />
                           <Typography variant="caption" sx={{ fontWeight: 800 }}>
                             {notification.priorityScore?.toFixed(0)}
                           </Typography>
@@ -238,10 +241,10 @@ export default function PriorityInboxPage() {
         </Grid>
 
         <Grid size={{ xs: 12, lg: 4 }}>
-          <Stack spacing={3} sx={{ position: 'sticky', top: 100 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, position: 'sticky', top: 100 }}>
             <Paper sx={{ p: 4, borderRadius: 6 }}>
               <Typography variant="h6" sx={{ fontWeight: 900, mb: 3, display: 'flex', alignItems: 'center', gap: 1 }}>
-                <BarChart2 size={20} color={theme.palette.primary.main} />
+                <BarChartRoundedIcon sx={{ fontSize: 22, color: theme.palette.primary.main }} />
                 Priority Distribution
               </Typography>
               <Box sx={{ height: 250, width: '100%' }}>
@@ -262,7 +265,7 @@ export default function PriorityInboxPage() {
                   </PieChart>
                 </ResponsiveContainer>
               </Box>
-              <Stack spacing={2} sx={{ mt: 2 }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
                 {chartData.map((item) => (
                   <Box key={item.name} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -272,7 +275,7 @@ export default function PriorityInboxPage() {
                     <Typography variant="body2" sx={{ fontWeight: 800 }}>{item.value}</Typography>
                   </Box>
                 ))}
-              </Stack>
+              </Box>
             </Paper>
 
             <Paper sx={{ p: 4, borderRadius: 6, bgcolor: alpha(theme.palette.primary.main, 0.05), border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}` }}>
@@ -285,13 +288,13 @@ export default function PriorityInboxPage() {
               <Button 
                 variant="text" 
                 color="primary" 
-                endIcon={<ChevronRight size={16} />}
+                endIcon={<ChevronRightRoundedIcon fontSize="small" />}
                 sx={{ mt: 2, fontWeight: 800, p: 0 }}
               >
                 Learn More
               </Button>
             </Paper>
-          </Stack>
+          </Box>
         </Grid>
       </Grid>
 
@@ -304,23 +307,4 @@ export default function PriorityInboxPage() {
       />
     </Box>
   );
-}
-
-function ChevronRight(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m9 18 6-6-6-6" />
-    </svg>
-  )
 }

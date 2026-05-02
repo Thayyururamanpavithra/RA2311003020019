@@ -1,23 +1,33 @@
-import { useState, useEffect } from 'react';
-import { Log } from 'logging_middleware';
+import { useState, useEffect, useRef } from 'react';
 
-export const useAutoRefresh = (refreshFn: () => void, intervalSeconds: number = 30) => {
+export const useAutoRefresh = (
+  refreshFn: () => void | Promise<void>,
+  intervalSeconds: number = 30
+) => {
   const [timeLeft, setTimeLeft] = useState(intervalSeconds);
+  const intervalRef = useRef(intervalSeconds);
+
+  useEffect(() => {
+    intervalRef.current = intervalSeconds;
+    setTimeLeft(intervalSeconds);
+  }, [intervalSeconds]);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
-          Log("frontend", "debug", "api", "Auto-refresh triggered by useAutoRefresh");
-          refreshFn();
-          return intervalSeconds;
+          void refreshFn();
+          return intervalRef.current;
         }
         return prev - 1;
       });
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [refreshFn, intervalSeconds]);
+  }, [refreshFn]);
 
-  return { timeLeft, resetTimer: () => setTimeLeft(intervalSeconds) };
+  return {
+    timeLeft,
+    resetTimer: () => setTimeLeft(intervalRef.current),
+  };
 };

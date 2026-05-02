@@ -2,7 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, LinearProgress, Fade, alpha } from '@mui/material';
-import { Bell, Zap, ShieldCheck } from 'lucide-react';
+import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
+import BoltRoundedIcon from '@mui/icons-material/BoltRounded';
+import ShieldRoundedIcon from '@mui/icons-material/ShieldRounded';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const SplashScreen: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
@@ -107,7 +109,7 @@ export const SplashScreen: React.FC<{ onComplete: () => void }> = ({ onComplete 
                     boxShadow: '0 20px 40px -10px rgba(0,0,0,0.5)',
                   }}
                 >
-                  <Bell size={48} color="#60a5fa" />
+                  <NotificationsRoundedIcon sx={{ fontSize: 48, color: '#60a5fa' }} />
                 </Box>
               </Box>
             </motion.div>
@@ -161,11 +163,11 @@ export const SplashScreen: React.FC<{ onComplete: () => void }> = ({ onComplete 
 
             <Box sx={{ position: 'absolute', bottom: 40, display: 'flex', gap: 4, opacity: 0.3 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Zap size={14} />
+                <BoltRoundedIcon sx={{ fontSize: 16 }} />
                 <Typography variant="caption" sx={{ fontWeight: 700 }}>REAL-TIME</Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <ShieldCheck size={14} />
+                <ShieldRoundedIcon sx={{ fontSize: 16 }} />
                 <Typography variant="caption" sx={{ fontWeight: 700 }}>SECURE</Typography>
               </Box>
             </Box>

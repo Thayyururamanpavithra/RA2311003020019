@@ -3,7 +3,13 @@
 import React, { useState } from 'react';
 import { Card, CardContent, Typography, Box, Chip, alpha, useTheme, IconButton } from '@mui/material';
 import { motion, useMotionValue, useTransform, AnimatePresence } from 'framer-motion';
-import { Briefcase, Trophy, Calendar, Clock, Check, Trash2, Info } from 'lucide-react';
+import WorkRoundedIcon from '@mui/icons-material/WorkRounded';
+import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
+import EventRoundedIcon from '@mui/icons-material/EventRounded';
+import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
+import DoneRoundedIcon from '@mui/icons-material/DoneRounded';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import { Notification } from '@/types';
 import { formatDistanceToNow } from 'date-fns';
 import { Log } from 'logging_middleware';
@@ -18,9 +24,9 @@ interface NotificationCardProps {
 }
 
 const typeConfig = {
-  Placement: { color: '#10b981', icon: Briefcase }, // Green
-  Result: { color: '#3b82f6', icon: Trophy },     // Blue
-  Event: { color: '#f59e0b', icon: Calendar },    // Orange
+  Placement: { color: '#10b981', icon: WorkRoundedIcon }, // Green
+  Result: { color: '#3b82f6', icon: EmojiEventsRoundedIcon }, // Blue
+  Event: { color: '#f59e0b', icon: EventRoundedIcon }, // Orange
 };
 
 export const NotificationCard: React.FC<NotificationCardProps> = ({ 
@@ -33,7 +39,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
 }) => {
   const theme = useTheme();
   const config = typeConfig[notification.type] || typeConfig.Event;
-  const Icon = config.icon;
+  const Icon = config.icon as React.ComponentType<{ sx?: any }>;
   const [isDismissed, setIsDismissed] = useState(false);
 
   // Swipe logic
@@ -84,12 +90,12 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'white' }}>
-          <Trash2 size={24} />
+          <DeleteRoundedIcon sx={{ fontSize: 26 }} />
           <Typography variant="button" sx={{ fontWeight: 800 }}>Dismiss</Typography>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'white' }}>
           <Typography variant="button" sx={{ fontWeight: 800 }}>Read</Typography>
-          <Check size={24} />
+          <DoneRoundedIcon sx={{ fontSize: 26 }} />
         </Box>
       </motion.div>
 
@@ -130,7 +136,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
                 boxShadow: `0 8px 16px -4px ${alpha(config.color, 0.2)}`
               }}
             >
-              <Icon size={26} />
+              <Icon sx={{ fontSize: 28 }} />
             </Box>
             
             <Box sx={{ flexGrow: 1 }}>
@@ -154,7 +160,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
                   )}
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: 'text.secondary' }}>
-                  <Clock size={14} />
+                  <AccessTimeRoundedIcon sx={{ fontSize: 16 }} />
                   <Typography variant="caption" sx={{ fontWeight: 600 }}>
                     {formatDistanceToNow(new Date(notification.timestamp), { addSuffix: true })}
                   </Typography>
@@ -178,7 +184,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
                   )}
                 </Box>
                 <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                  <Info size={12} />
+                  <InfoRoundedIcon sx={{ fontSize: 14 }} />
                   Score: {notification.priorityScore.toFixed(0)}
                 </Typography>
               </Box>

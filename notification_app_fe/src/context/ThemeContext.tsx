@@ -26,6 +26,11 @@ export const ThemeContextProvider: React.FC<{ children: React.ReactNode }> = ({ 
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    if (!mounted) return;
+    document.documentElement.setAttribute('data-theme', mode);
+  }, [mode, mounted]);
+
   const toggleTheme = () => {
     const newMode = mode === 'light' ? 'dark' : 'light';
     setMode(newMode);

@@ -1,22 +1,26 @@
 "use client";
 
 import React from 'react';
-import { Card, CardContent, Typography, Box, alpha, useTheme } from '@mui/material';
+import { Card, CardContent, Typography, Box, alpha } from '@mui/material';
+import type { SvgIconProps } from '@mui/material/SvgIcon';
 import { motion } from 'framer-motion';
-import { LucideIcon } from 'lucide-react';
 import { AnimatedCounter } from '../common/AnimatedCounter';
 
 interface StatCardProps {
   title: string;
   value: number;
-  icon: LucideIcon;
+  icon: React.ComponentType<SvgIconProps>;
   color: string;
   delay?: number;
 }
 
-export const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon, color, delay = 0 }) => {
-  const theme = useTheme();
-
+export const StatCard: React.FC<StatCardProps> = ({
+  title,
+  value,
+  icon: Icon,
+  color,
+  delay = 0,
+}) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -38,10 +42,19 @@ export const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon, co
               mr: 3,
             }}
           >
-            <Icon size={28} />
+            <Icon sx={{ fontSize: 28 }} />
           </Box>
           <Box>
-            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', fontSize: '0.7rem' }}>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+                fontSize: '0.7rem',
+              }}
+            >
               {title}
             </Typography>
             <Typography variant="h4" sx={{ fontWeight: 900 }}>

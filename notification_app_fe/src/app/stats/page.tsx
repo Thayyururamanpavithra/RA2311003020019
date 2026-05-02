@@ -3,13 +3,14 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { 
   Typography, Box, Grid, Paper, Button, useTheme, 
-  alpha, Stack, Divider, Chip, Tooltip as MuiTooltip, IconButton
+  alpha, Divider, Chip, Tooltip as MuiTooltip, IconButton
 } from '@mui/material';
-import { 
-  Download, BarChart2, PieChart as PieIcon, 
-  TrendingUp, Clock, FileText, Info, Share2,
-  Calendar, Zap, Bell, CheckCircle2
-} from 'lucide-react';
+import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
+import PieChartRoundedIcon from '@mui/icons-material/PieChartRounded';
+import TrendingUpRoundedIcon from '@mui/icons-material/TrendingUpRounded';
+import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
+import ShareRoundedIcon from '@mui/icons-material/ShareRounded';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { useNotificationsContext } from '@/context/NotificationContext';
 import { 
   LineChart, Line, XAxis, YAxis, CartesianGrid, 
@@ -99,23 +100,23 @@ export default function StatsPage() {
             Deep dive into campus notification patterns and engagement metrics.
           </Typography>
         </Box>
-        <Stack direction="row" spacing={2}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
           <Button 
             variant="outlined" 
-            startIcon={<Share2 size={18} />}
+            startIcon={<ShareRoundedIcon fontSize="small" />}
             sx={{ borderRadius: 3, fontWeight: 700 }}
           >
             Share Report
           </Button>
           <Button 
             variant="contained" 
-            startIcon={<Download size={18} />}
+            startIcon={<DownloadRoundedIcon fontSize="small" />}
             onClick={handleExportCSV}
             sx={{ borderRadius: 3, px: 3, fontWeight: 800 }}
           >
             Export Data
           </Button>
-        </Stack>
+        </Box>
       </Box>
 
       <Grid container spacing={4}>
@@ -123,7 +124,7 @@ export default function StatsPage() {
           <Paper sx={{ p: 4, borderRadius: 6, border: `1px solid ${alpha(theme.palette.divider, 0.1)}` }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
               <Typography variant="h6" sx={{ fontWeight: 900, display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <TrendingUp size={22} color={theme.palette.primary.main} />
+                <TrendingUpRoundedIcon sx={{ fontSize: 22, color: theme.palette.primary.main }} />
                 Volume Trends
               </Typography>
               <Chip label="Live Feed" size="small" color="success" variant="outlined" sx={{ fontWeight: 700, borderRadius: 2 }} />
@@ -173,10 +174,10 @@ export default function StatsPage() {
         </Grid>
 
         <Grid size={{ xs: 12, lg: 4 }}>
-          <Stack spacing={4} sx={{ height: '100%' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, height: '100%' }}>
             <Paper sx={{ p: 4, borderRadius: 6, flexGrow: 1 }}>
               <Typography variant="h6" sx={{ fontWeight: 900, mb: 3, display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <PieIcon size={20} color={theme.palette.secondary.main} />
+                <PieChartRoundedIcon sx={{ fontSize: 22, color: theme.palette.secondary.main }} />
                 Type Breakdown
               </Typography>
               <Box sx={{ height: 220, width: '100%' }}>
@@ -199,22 +200,22 @@ export default function StatsPage() {
                   </PieChart>
                 </ResponsiveContainer>
               </Box>
-              <Stack spacing={1.5} sx={{ mt: 2 }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, mt: 2 }}>
                 {typeData.map((item) => (
                   <Box key={item.name} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Stack direction="row" spacing={1} alignItems="center">
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                       <Box sx={{ width: 10, height: 10, borderRadius: '50%', bgcolor: item.color }} />
                       <Typography variant="body2" sx={{ fontWeight: 600 }}>{item.name}</Typography>
-                    </Stack>
+                    </Box>
                     <Typography variant="body2" sx={{ fontWeight: 800 }}>{item.value}</Typography>
                   </Box>
                 ))}
-              </Stack>
+              </Box>
             </Paper>
 
             <Paper sx={{ p: 4, borderRadius: 6, bgcolor: alpha(theme.palette.primary.main, 0.03), border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}` }}>
               <Typography variant="h6" sx={{ fontWeight: 900, mb: 2, display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <CheckCircle2 size={20} color={theme.palette.primary.main} />
+                <CheckCircleRoundedIcon sx={{ fontSize: 22, color: theme.palette.primary.main }} />
                 Read Engagement
               </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
@@ -246,20 +247,20 @@ export default function StatsPage() {
                 </Box>
               </Box>
             </Paper>
-          </Stack>
+          </Box>
         </Grid>
 
         <Grid size={{ xs: 12 }}>
           <Paper sx={{ p: 4, borderRadius: 6 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
               <Typography variant="h6" sx={{ fontWeight: 900, display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <Clock size={22} color={theme.palette.primary.main} />
+                <AccessTimeRoundedIcon sx={{ fontSize: 22, color: theme.palette.primary.main }} />
                 Activity Density (24h)
               </Typography>
-              <Stack direction="row" spacing={1} alignItems="center">
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <Box sx={{ width: 12, height: 12, bgcolor: theme.palette.secondary.main, borderRadius: '50%' }} />
                 <Typography variant="caption" sx={{ fontWeight: 700 }}>Peak Times</Typography>
-              </Stack>
+              </Box>
             </Box>
             <Box sx={{ height: 350, width: '100%' }}>
               <ResponsiveContainer width="100%" height="100%">

@@ -3,14 +3,20 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Typography, Box, Paper, Grid, Switch, FormControlLabel, 
-  Select, MenuItem, Button, Divider, Stack, Slider,
+  Select, MenuItem, Button, Divider, Slider, Chip,
   alpha, useTheme, Card, CardContent, IconButton, Tooltip
 } from '@mui/material';
-import { 
-  Moon, Sun, RefreshCw, Layers, List, 
-  Trash2, Bell, ShieldCheck, Zap, Laptop,
-  Settings, Save, AlertTriangle, Info
-} from 'lucide-react';
+import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
+import WbSunnyRoundedIcon from '@mui/icons-material/WbSunnyRounded';
+import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
+import VerifiedUserRoundedIcon from '@mui/icons-material/VerifiedUserRounded';
+import BoltRoundedIcon from '@mui/icons-material/BoltRounded';
+import LaptopMacRoundedIcon from '@mui/icons-material/LaptopMacRounded';
+import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
+import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import { useAppTheme } from '@/context/ThemeContext';
 import { useNotificationsContext } from '@/context/NotificationContext';
 import { Toast } from '@/components/common/Toast';
@@ -37,6 +43,7 @@ export default function SettingsPage() {
   const handleSave = () => {
     localStorage.setItem('refreshInterval', refreshInterval.toString());
     localStorage.setItem('itemsPerPage', itemsPerPage.toString());
+    window.dispatchEvent(new Event('local-settings-updated'));
     setToast({ open: true, message: 'Settings saved successfully!', severity: 'success' });
     Log("frontend", "info", "state", "Settings saved to localStorage");
   };
@@ -58,7 +65,7 @@ export default function SettingsPage() {
         </Box>
         <Button 
           variant="contained" 
-          startIcon={<Save size={18} />}
+          startIcon={<SaveRoundedIcon fontSize="small" />}
           onClick={handleSave}
           sx={{ borderRadius: 3, px: 4, py: 1.5, fontWeight: 800 }}
         >
@@ -68,10 +75,10 @@ export default function SettingsPage() {
 
       <Grid container spacing={4}>
         <Grid size={{ xs: 12, lg: 8 }}>
-          <Stack spacing={4}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             <Paper sx={{ p: 4, borderRadius: 6 }}>
               <Typography variant="h6" sx={{ fontWeight: 900, mb: 4, display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <Laptop size={22} color={theme.palette.primary.main} />
+                <LaptopMacRoundedIcon sx={{ fontSize: 22, color: theme.palette.primary.main }} />
                 Interface & Appearance
               </Typography>
               
@@ -88,10 +95,10 @@ export default function SettingsPage() {
                       transition: 'all 0.2s'
                     }}
                   >
-                    <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
-                      <Moon size={24} color={mode === 'dark' ? theme.palette.primary.main : theme.palette.text.secondary} />
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                      <DarkModeRoundedIcon sx={{ fontSize: 24, color: mode === 'dark' ? theme.palette.primary.main : theme.palette.text.secondary }} />
                       <Switch checked={mode === 'dark'} onChange={toggleTheme} />
-                    </Stack>
+                    </Box>
                     <Typography variant="subtitle1" sx={{ fontWeight: 800 }}>Dark Vision</Typography>
                     <Typography variant="body2" color="text.secondary">Easy on the eyes in low light</Typography>
                   </Box>
@@ -108,10 +115,10 @@ export default function SettingsPage() {
                       transition: 'all 0.2s'
                     }}
                   >
-                    <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
-                      <Sun size={24} color={mode === 'light' ? theme.palette.primary.main : theme.palette.text.secondary} />
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                      <WbSunnyRoundedIcon sx={{ fontSize: 24, color: mode === 'light' ? theme.palette.primary.main : theme.palette.text.secondary }} />
                       <Switch checked={mode === 'light'} onChange={toggleTheme} />
-                    </Stack>
+                    </Box>
                     <Typography variant="subtitle1" sx={{ fontWeight: 800 }}>Daylight</Typography>
                     <Typography variant="body2" color="text.secondary">High contrast for bright environments</Typography>
                   </Box>
@@ -121,18 +128,18 @@ export default function SettingsPage() {
 
             <Paper sx={{ p: 4, borderRadius: 6 }}>
               <Typography variant="h6" sx={{ fontWeight: 900, mb: 4, display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <Zap size={22} color={theme.palette.warning.main} />
+                <BoltRoundedIcon sx={{ fontSize: 22, color: theme.palette.warning.main }} />
                 Performance & Updates
               </Typography>
               
               <Box sx={{ mb: 6 }}>
-                <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, gap: 2, flexWrap: 'wrap' }}>
                   <Box>
                     <Typography variant="subtitle1" sx={{ fontWeight: 800 }}>Polling Frequency</Typography>
                     <Typography variant="body2" color="text.secondary">How often to check for new alerts</Typography>
                   </Box>
                   <Chip label={`${refreshInterval} seconds`} color="primary" sx={{ fontWeight: 800, borderRadius: 2 }} />
-                </Stack>
+                </Box>
                 <Slider
                   value={refreshInterval}
                   min={10}
@@ -172,7 +179,7 @@ export default function SettingsPage() {
 
             <Paper sx={{ p: 4, borderRadius: 6, border: `1px solid ${alpha(theme.palette.error.main, 0.2)}`, bgcolor: alpha(theme.palette.error.main, 0.02) }}>
               <Typography variant="h6" sx={{ fontWeight: 900, mb: 4, display: 'flex', alignItems: 'center', gap: 1.5, color: 'error.main' }}>
-                <AlertTriangle size={22} />
+                <WarningAmberRoundedIcon sx={{ fontSize: 22 }} />
                 Data & Privacy
               </Typography>
               
@@ -184,7 +191,7 @@ export default function SettingsPage() {
                 <Button 
                   variant="outlined" 
                   color="error" 
-                  startIcon={<Trash2 size={18} />}
+                  startIcon={<DeleteRoundedIcon fontSize="small" />}
                   onClick={onClearHistory}
                   sx={{ borderRadius: 3, fontWeight: 700 }}
                 >
@@ -192,21 +199,21 @@ export default function SettingsPage() {
                 </Button>
               </Box>
             </Paper>
-          </Stack>
+          </Box>
         </Grid>
 
         <Grid size={{ xs: 12, lg: 4 }}>
-          <Stack spacing={4}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             <Card sx={{ borderRadius: 6, bgcolor: alpha(theme.palette.primary.main, 0.05), border: 'none', position: 'relative', overflow: 'hidden' }}>
               <Box sx={{ position: 'absolute', top: -10, right: -10, opacity: 0.05 }}>
-                <Settings size={150} />
+                <SettingsRoundedIcon sx={{ fontSize: 150 }} />
               </Box>
               <CardContent sx={{ p: 4, position: 'relative', zIndex: 1 }}>
                 <Typography variant="h6" sx={{ fontWeight: 900, mb: 3, display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                  <ShieldCheck size={20} color={theme.palette.primary.main} />
+                  <VerifiedUserRoundedIcon sx={{ fontSize: 22, color: theme.palette.primary.main }} />
                   System Audit
                 </Typography>
-                <Stack spacing={2.5}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
                   {[
                     { label: 'System Version', value: 'v2.1.4-gold', color: 'text.primary' },
                     { label: 'Environment', value: 'Production', color: 'success.main' },
@@ -219,10 +226,10 @@ export default function SettingsPage() {
                       <Typography variant="body2" sx={{ fontWeight: 800, color: item.color }}>{item.value}</Typography>
                     </Box>
                   ))}
-                </Stack>
+                </Box>
                 <Divider sx={{ my: 3 }} />
                 <Typography variant="caption" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                  <Info size={12} />
+                  <InfoRoundedIcon sx={{ fontSize: 14 }} />
                   All settings are stored locally in your browser.
                 </Typography>
               </CardContent>
@@ -230,14 +237,14 @@ export default function SettingsPage() {
 
             <Box sx={{ p: 4, borderRadius: 6, bgcolor: theme.palette.background.paper, border: `1px solid ${theme.palette.divider}` }}>
               <Typography variant="subtitle2" sx={{ fontWeight: 900, mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Bell size={18} color={theme.palette.primary.main} />
+                <NotificationsRoundedIcon sx={{ fontSize: 20, color: theme.palette.primary.main }} />
                 About Notifications
               </Typography>
               <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
                 Notifications are fetched from the central campus server. If you experience delays, try reducing the polling frequency or refreshing manually.
               </Typography>
             </Box>
-          </Stack>
+          </Box>
         </Grid>
       </Grid>
 

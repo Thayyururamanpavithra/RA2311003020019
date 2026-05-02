@@ -4,7 +4,11 @@ import React, { useState, useEffect } from 'react';
 import { Box, Container, useMediaQuery, useTheme, BottomNavigation, BottomNavigationAction, Paper, alpha } from '@mui/material';
 import { Navbar } from './Navbar';
 import { SplashScreen } from './SplashScreen';
-import { Home, Bell, Inbox, BarChart2, Settings } from 'lucide-react';
+import HomeIcon from '@mui/icons-material/HomeRounded';
+import NotificationsIcon from '@mui/icons-material/NotificationsRounded';
+import InboxIcon from '@mui/icons-material/InboxRounded';
+import BarChartIcon from '@mui/icons-material/BarChartRounded';
+import SettingsIcon from '@mui/icons-material/SettingsRounded';
 import { useRouter, usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -150,11 +154,11 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children })
               }
             }}
           >
-            <BottomNavigationAction label="Home" value="/" icon={<Home size={22} />} />
-            <BottomNavigationAction label="Inbox" value="/all" icon={<Bell size={22} />} />
-            <BottomNavigationAction label="Top" value="/priority" icon={<Inbox size={22} />} />
-            <BottomNavigationAction label="Stats" value="/stats" icon={<BarChart2 size={22} />} />
-            <BottomNavigationAction label="Settings" value="/settings" icon={<Settings size={22} />} />
+            <BottomNavigationAction label="Home" value="/" icon={<HomeIcon />} />
+            <BottomNavigationAction label="Inbox" value="/all" icon={<NotificationsIcon />} />
+            <BottomNavigationAction label="Top" value="/priority" icon={<InboxIcon />} />
+            <BottomNavigationAction label="Stats" value="/stats" icon={<BarChartIcon />} />
+            <BottomNavigationAction label="Settings" value="/settings" icon={<SettingsIcon />} />
           </BottomNavigation>
         </Paper>
       )}

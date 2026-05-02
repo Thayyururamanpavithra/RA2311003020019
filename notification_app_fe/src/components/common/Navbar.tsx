@@ -5,13 +5,18 @@ import {
   AppBar, Toolbar, Typography, Button, IconButton, 
   Badge, Box, useMediaQuery, useTheme, Drawer, List, 
   ListItem, ListItemButton, ListItemText, ListItemIcon,
-  alpha, Stack, Tooltip
+  alpha, Tooltip, Paper
 } from '@mui/material';
-import { 
-  Bell, Sun, Moon, Menu as MenuIcon, 
-  Home, Inbox, BarChart2, Settings, Zap,
-  Search, X
-} from 'lucide-react';
+import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
+import WbSunnyRoundedIcon from '@mui/icons-material/WbSunnyRounded';
+import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import InboxRoundedIcon from '@mui/icons-material/InboxRounded';
+import BarChartRoundedIcon from '@mui/icons-material/BarChartRounded';
+import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
+import BoltRoundedIcon from '@mui/icons-material/BoltRounded';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { useAppTheme } from '@/context/ThemeContext';
 import { useNotificationsContext } from '@/context/NotificationContext';
 import Link from 'next/link';
@@ -19,11 +24,11 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navItems = [
-  { label: 'Home', path: '/', icon: <Home size={20} /> },
-  { label: 'Notifications', path: '/all', icon: <Bell size={20} /> },
-  { label: 'Priority', path: '/priority', icon: <Inbox size={20} /> },
-  { label: 'Stats', path: '/stats', icon: <BarChart2 size={20} /> },
-  { label: 'Settings', path: '/settings', icon: <Settings size={20} /> },
+  { label: 'Home', path: '/', icon: <HomeRoundedIcon fontSize="small" /> },
+  { label: 'Notifications', path: '/all', icon: <NotificationsRoundedIcon fontSize="small" /> },
+  { label: 'Priority', path: '/priority', icon: <InboxRoundedIcon fontSize="small" /> },
+  { label: 'Stats', path: '/stats', icon: <BarChartRoundedIcon fontSize="small" /> },
+  { label: 'Settings', path: '/settings', icon: <SettingsRoundedIcon fontSize="small" /> },
 ];
 
 export const Navbar: React.FC = () => {
@@ -80,7 +85,7 @@ export const Navbar: React.FC = () => {
               boxShadow: `0 8px 16px ${alpha(theme.palette.primary.main, 0.3)}`
             }}
           >
-            <Bell size={22} fill="white" />
+            <NotificationsRoundedIcon sx={{ fontSize: 22, color: 'white' }} />
           </Box>
           <Typography 
             variant="h6" 
@@ -145,7 +150,7 @@ export const Navbar: React.FC = () => {
           </Paper>
         )}
 
-        <Stack direction="row" spacing={1} alignItems="center">
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Tooltip title={mode === 'dark' ? 'Light Mode' : 'Dark Mode'}>
             <IconButton onClick={toggleTheme} color="inherit" sx={{ width: 44, height: 44 }}>
               <AnimatePresence mode="wait">
@@ -156,7 +161,11 @@ export const Navbar: React.FC = () => {
                   exit={{ opacity: 0, rotate: 90, scale: 0.5 }}
                   transition={{ duration: 0.2 }}
                 >
-                  {mode === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+                  {mode === 'dark' ? (
+                    <WbSunnyRoundedIcon fontSize="small" />
+                  ) : (
+                    <DarkModeRoundedIcon fontSize="small" />
+                  )}
                 </motion.div>
               </AnimatePresence>
             </IconButton>
@@ -192,7 +201,7 @@ export const Navbar: React.FC = () => {
                     repeatDelay: 4 
                   }}
                 >
-                  <Bell size={20} />
+                  <NotificationsRoundedIcon fontSize="small" />
                 </motion.div>
               </Badge>
             </IconButton>
@@ -204,10 +213,10 @@ export const Navbar: React.FC = () => {
               onClick={() => setDrawerOpen(true)}
               sx={{ width: 44, height: 44, ml: 1 }}
             >
-              <MenuIcon size={22} />
+              <MenuRoundedIcon fontSize="small" />
             </IconButton>
           )}
-        </Stack>
+        </Box>
       </Toolbar>
 
       <Drawer
@@ -228,7 +237,7 @@ export const Navbar: React.FC = () => {
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4, mt: 1 }}>
           <Typography variant="h6" sx={{ fontWeight: 900 }}>Menu</Typography>
           <IconButton onClick={() => setDrawerOpen(false)}>
-            <X size={20} />
+            <CloseRoundedIcon fontSize="small" />
           </IconButton>
         </Box>
         <List sx={{ gap: 1, display: 'flex', flexDirection: 'column' }}>
@@ -250,10 +259,11 @@ export const Navbar: React.FC = () => {
                 }}
               >
                 <ListItemIcon sx={{ minWidth: 40 }}>{item.icon}</ListItemIcon>
-                <ListItemText 
-                  primary={item.label} 
-                  primaryTypographyProps={{ fontWeight: pathname === item.path ? 800 : 600 }} 
-                />
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Typography sx={{ fontWeight: pathname === item.path ? 800 : 600 }}>
+                    {item.label}
+                  </Typography>
+                </Box>
               </ListItemButton>
             </ListItem>
           ))}
@@ -261,13 +271,13 @@ export const Navbar: React.FC = () => {
         
         <Box sx={{ mt: 'auto', p: 2 }}>
           <Paper sx={{ p: 2, borderRadius: 4, bgcolor: alpha(theme.palette.primary.main, 0.05), border: 'none' }}>
-            <Stack direction="row" spacing={1.5} alignItems="center">
-              <Zap size={18} color={theme.palette.primary.main} />
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+              <BoltRoundedIcon sx={{ fontSize: 18, color: theme.palette.primary.main }} />
               <Box>
                 <Typography variant="caption" sx={{ fontWeight: 800, display: 'block' }}>AUTO-REFRESH</Typography>
                 <Typography variant="caption" color="text.secondary">Next update in {nextRefreshIn}s</Typography>
               </Box>
-            </Stack>
+            </Box>
           </Paper>
         </Box>
       </Drawer>
