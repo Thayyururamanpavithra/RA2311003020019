@@ -43,7 +43,7 @@ export const NotificationModal: React.FC<NotificationModalProps> = ({ notificati
         }
       }}
     >
-      <DialogTitle sx={{ m: 0, p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <DialogTitle component="div" sx={{ m: 0, p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Notification Details</Typography>
         <IconButton onClick={onClose} size="small">
           <X size={20} />

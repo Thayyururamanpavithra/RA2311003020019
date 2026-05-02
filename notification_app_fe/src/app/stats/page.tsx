@@ -107,7 +107,7 @@ export default function StatsPage() {
               <TrendingUp size={20} />
               Notification Volume (Last 7 Days)
             </Typography>
-            <Box sx={{ height: 350 }}>
+            <Box sx={{ height: 400, minHeight: 400, width: '100%' }}>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={volumeData}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={alpha(theme.palette.divider, 0.5)} />
@@ -141,7 +141,7 @@ export default function StatsPage() {
               <PieIcon size={20} />
               Composition
             </Typography>
-            <Box sx={{ height: 300 }}>
+            <Box sx={{ height: 350, minHeight: 350, width: '100%' }}>
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -171,7 +171,7 @@ export default function StatsPage() {
               <Clock size={20} />
               Peak Activity Times (24h)
             </Typography>
-            <Box sx={{ height: 300 }}>
+            <Box sx={{ height: 350, minHeight: 350, width: '100%' }}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={hourlyData}>
                   <XAxis dataKey="hour" axisLine={false} tickLine={false} />

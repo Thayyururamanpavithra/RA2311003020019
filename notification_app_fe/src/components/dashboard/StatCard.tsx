@@ -44,13 +44,7 @@ export const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon, co
               {title}
             </Typography>
             <Typography variant="h4" sx={{ fontWeight: 800 }}>
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: delay + 0.5 }}
-              >
-                {value}
-              </motion.span>
+              {value}
             </Typography>
           </Box>
         </CardContent>

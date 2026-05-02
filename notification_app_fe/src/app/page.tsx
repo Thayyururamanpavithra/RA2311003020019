@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo } from 'react';
-import { Typography, Grid, Box, Button, Paper, alpha, useTheme } from '@mui/material';
+import { Typography, Grid, Box, Button, Paper, alpha, useTheme, Skeleton } from '@mui/material';
 import { 
   Bell, Briefcase, Trophy, Calendar, 
   ArrowRight, Activity, TrendingUp 
@@ -28,6 +28,7 @@ export default function DashboardPage() {
   }, []);
 
   const stats = useMemo(() => {
+    Log("frontend", "info", "state", `Calculating dashboard stats for ${notifications.length} notifications`);
     const counts = {
       total: notifications.length,
       placement: notifications.filter(n => n.type === 'Placement').length,
@@ -73,21 +74,21 @@ export default function DashboardPage() {
       </Box>
 
       <Grid container spacing={3} sx={{ mb: 6 }}>
-        <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
-          <StatCard title="Total" value={stats.total} icon={Activity} color={theme.palette.primary.main} />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
-          <StatCard title="Placements" value={stats.placement} icon={Briefcase} color="#10b981" delay={0.1} />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
-          <StatCard title="Results" value={stats.result} icon={Trophy} color="#3b82f6" delay={0.2} />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
-          <StatCard title="Events" value={stats.event} icon={Calendar} color="#f59e0b" delay={0.3} />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
-          <StatCard title="Unread" value={stats.unread} icon={Bell} color="#ef4444" delay={0.4} />
-        </Grid>
+        {[
+          { title: "Total", value: stats.total, icon: Activity, color: theme.palette.primary.main, delay: 0 },
+          { title: "Placements", value: stats.placement, icon: Briefcase, color: "#10b981", delay: 0.1 },
+          { title: "Results", value: stats.result, icon: Trophy, color: "#3b82f6", delay: 0.2 },
+          { title: "Events", value: stats.event, icon: Calendar, color: "#f59e0b", delay: 0.3 },
+          { title: "Unread", value: stats.unread, icon: Bell, color: "#ef4444", delay: 0.4 },
+        ].map((item, index) => (
+          <Grid key={index} size={{ xs: 12, sm: 6, md: 2.4 }}>
+            {loading && notifications.length === 0 ? (
+              <Skeleton variant="rectangular" height={100} sx={{ borderRadius: 4 }} />
+            ) : (
+              <StatCard {...item} />
+            )}
+          </Grid>
+        ))}
       </Grid>
 
       <Grid container spacing={4}>
@@ -97,7 +98,7 @@ export default function DashboardPage() {
               <TrendingUp size={20} />
               Distribution by Type
             </Typography>
-            <Box sx={{ height: 300 }}>
+            <Box sx={{ height: 350, minHeight: 350, width: '100%' }}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData}>
                   <XAxis dataKey="name" axisLine={false} tickLine={false} />
