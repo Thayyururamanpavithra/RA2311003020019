@@ -24,44 +24,43 @@ The algorithm performs a stable sort:
 
 ## Stage 2: Advanced Architecture & UX
 
-### 1. Architecture Overview
-The application is built using **Next.js (App Router)** for optimized performance and routing. The frontend architecture follows a modular approach:
-- **State Management**: React Context API (`NotificationContext`) handles global notification state, unread tracking, and real-time polling.
-- **Theme Engine**: Custom Material UI theme with `ThemeContext` supports seamless dark/light mode transitions and persistent user preferences.
-- **Data Layer**: Robust API utility layer with Bearer token authentication and standardized error handling.
+### Architecture Overview
+The application is built using **Next.js (App Router)** with a micro-frontend architecture mindset. It utilizes **Material UI (MUI)** for an enterprise-grade design system and **Framer Motion** for immersive animations.
 
-### 2. Component Hierarchy
-- **Layout**: `AppLayout` manages the `SplashScreen` entry point and responsive navigation (Navbar for desktop, BottomNav for mobile).
-- **Notifications**: Atomic components (`NotificationCard`, `NotificationModal`) handle data display with color-coded prioritization and interactive detail views.
-- **Analytics**: Recharts-based visualizations for monitoring notification volume and distribution.
+### Component Hierarchy
+- **Layout Core**: `AppLayout` -> `Navbar` / `FloatingBottomNav` / `SplashScreen`.
+- **Context Layer**: `ThemeContext` (MUI Theme Engine) & `NotificationContext` (Global State).
+- **Hook Layer**: Modularized logic via `useNotifications`, `usePrioritySort`, `useAutoRefresh`, and `useReadStatus`.
+- **Atomic UI**: High-performance components like `StatCard`, `NotificationCard`, and `AnimatedCounter`.
 
-### 3. State Management Approach
-We utilize a single source of truth for notifications via the `NotificationProvider`. This provider:
-- Polls the API every 30 seconds.
-- Tracks `viewedIds` in `localStorage` to identify new alerts.
-- Provides atomic update functions (`markAsRead`, `refresh`) to sub-components.
+### State Management Approach
+We use a hybrid approach:
+- **React Context**: For global notification streams and user theme preferences.
+- **Local Storage**: For persistent user settings (items per page, refresh interval) and read/unread history tracking.
+- **Custom Hooks**: To decouple business logic (sorting, polling) from UI components.
 
-### 4. Real-time Update Strategy
-- **Polling**: Lightweight HTTP polling ensures the UI is up-to-date even without WebSockets.
-- **Optimistic UI**: Read/unread status updates immediately in the local state while being persisted in background storage.
-- **Visual Feedback**: Real-time "Live" indicators and animated notification counts alert the user to new data arrivals.
+### Real-time Update Strategy
+- **Background Polling**: An intelligent `useAutoRefresh` hook polls the microservice every 30-60 seconds (configurable).
+- **Live Feedback**: A real-time countdown timer in the Navbar and Dashboard alerts users to upcoming data refreshes.
+- **Optimistic Updates**: Immediate UI feedback for marking notifications as read.
 
-### 5. Priority Scoring Formula
-In Stage 2, we enhance the scoring with a dynamic formula:
-`Score = (BaseWeight × 100) + (RecencyScore × 0.5) + (KeywordUrgency × 0.2)`
-- **BaseWeight**: Based on notification type (Placement=3, Result=2, Event=1).
-- **RecencyScore**: Normalized time factor that decays as notifications age.
-- **KeywordUrgency**: Boost for keywords like "Immediate", "Deadline", or "Urgent".
+### Priority Scoring Formula
+`Score = (BaseWeight × 100) + (RecencyScore × 1.0) + (KeywordUrgency × 50)`
+- **BaseWeight**: Static weight based on Type (Placement=3, Result=2, Event=1).
+- **RecencyScore**: A decaying linear factor (100 - age_in_hours).
+- **KeywordUrgency**: 50pt boost for messages containing critical keywords (e.g., "Deadline", "Urgent").
 
-### 6. Dark Mode Implementation
-The theme uses CSS variables and MUI's `alpha` utility for a premium "Glassmorphism" effect. Dark mode is optimized for high-contrast readability with a Slate-Navy palette.
+### Performance Optimizations
+- **Memoized Calculations**: All sorting and filtering are wrapped in `useMemo` to prevent UI jank during re-renders.
+- **Lazy Loading**: Heavy charts and visualizations use dynamic imports or conditional rendering.
+- **Backdrop Blurs**: Efficient use of `backdrop-filter` for glassmorphism without compromising performance.
 
-### 7. Mobile-First Approach
-- **Bottom Navigation**: Persistent access to core features on small screens.
-- **Touch Targets**: All interactive elements are sized for a minimum 44px tap area.
-- **Gesture Support**: Swiping interactions (planned) and responsive grid layouts.
+### Dark Mode Implementation
+- **Deep Slate Palette**: Optimized for OLED screens and low-light environments.
+- **Electric Blue Accents**: High-contrast primary color for clear call-to-actions.
+- **LocalStorage Sync**: Theme preference persists across sessions and tabs.
 
-### 8. Performance Optimizations
-- **Skeleton Loading**: Prevents layout shift during data fetching.
-- **Memoization**: `useMemo` and `useCallback` prevent unnecessary re-renders of heavy chart components.
-- **Dynamic Imports**: Large visualization libraries are loaded only when needed.
+### Mobile-First Approach
+- **Floating Navigation**: A modern, thumb-friendly floating bottom bar for quick access.
+- **Gesture Control**: Intuitive swipe-to-read and swipe-to-dismiss interactions.
+- **Adaptive Layouts**: Fluid container scaling using MUI's `breakpoints`.

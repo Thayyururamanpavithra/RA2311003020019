@@ -4,6 +4,7 @@ import React from 'react';
 import { Card, CardContent, Typography, Box, alpha, useTheme } from '@mui/material';
 import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
+import { AnimatedCounter } from '../common/AnimatedCounter';
 
 interface StatCardProps {
   title: string;
@@ -31,7 +32,7 @@ export const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon, co
               justifyContent: 'center',
               width: 56,
               height: 56,
-              borderRadius: '12px',
+              borderRadius: '16px',
               bgcolor: alpha(color, 0.1),
               color: color,
               mr: 3,
@@ -40,11 +41,11 @@ export const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon, co
             <Icon size={28} />
           </Box>
           <Box>
-            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
+            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', fontSize: '0.7rem' }}>
               {title}
             </Typography>
-            <Typography variant="h4" sx={{ fontWeight: 800 }}>
-              {value}
+            <Typography variant="h4" sx={{ fontWeight: 900 }}>
+              <AnimatedCounter value={value} />
             </Typography>
           </Box>
         </CardContent>

@@ -4,45 +4,56 @@ const getDesignTokens = (mode: 'light' | 'dark') => ({
   palette: {
     mode,
     primary: {
-      main: mode === 'dark' ? '#3b82f6' : '#1e3a8a', // Electric blue in dark, Deep navy in light
-      light: '#60a5fa',
-      dark: '#1e40af',
+      main: mode === 'dark' ? '#60a5fa' : '#1e3a8a', // Electric blue in dark, Deep navy in light
+      light: '#93c5fd',
+      dark: '#1d4ed8',
     },
     secondary: {
-      main: '#8b5cf6',
+      main: '#c084fc',
     },
     background: {
-      default: mode === 'dark' ? '#0f172a' : '#f8fafc', // Slate 950 vs 50
-      paper: mode === 'dark' ? '#1e293b' : '#ffffff',
+      default: mode === 'dark' ? '#020617' : '#f8fafc', // Slate 950 vs 50
+      paper: mode === 'dark' ? '#0f172a' : '#ffffff', // Slate 900 vs white
     },
     text: {
-      primary: mode === 'dark' ? '#f1f5f9' : '#1e293b',
-      secondary: mode === 'dark' ? '#94a3b8' : '#64748b',
+      primary: mode === 'dark' ? '#f8fafc' : '#0f172a',
+      secondary: mode === 'dark' ? '#94a3b8' : '#475569',
     },
-    divider: mode === 'dark' ? alpha('#ffffff', 0.1) : alpha('#000000', 0.1),
+    divider: mode === 'dark' ? alpha('#ffffff', 0.08) : alpha('#000000', 0.08),
   },
   typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-    h1: { fontWeight: 800 },
-    h2: { fontWeight: 700 },
-    h3: { fontWeight: 700 },
-    h4: { fontWeight: 600 },
-    h5: { fontWeight: 600 },
-    h6: { fontWeight: 600 },
-    button: { textTransform: 'none', fontWeight: 600 },
+    fontFamily: '"Outfit", "Inter", "Roboto", sans-serif',
+    h1: { fontWeight: 900, letterSpacing: '-0.02em' },
+    h2: { fontWeight: 800, letterSpacing: '-0.01em' },
+    h3: { fontWeight: 800, letterSpacing: '-0.01em' },
+    h4: { fontWeight: 700 },
+    h5: { fontWeight: 700 },
+    h6: { fontWeight: 700 },
+    button: { textTransform: 'none', fontWeight: 600, letterSpacing: '0.02em' },
   },
   shape: {
-    borderRadius: 12,
+    borderRadius: 16,
   },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 8,
-          transition: 'all 0.2s ease-in-out',
+          borderRadius: 12,
+          padding: '8px 20px',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           '&:hover': {
             transform: 'translateY(-2px)',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+            boxShadow: '0 8px 20px -4px rgba(0,0,0,0.2)',
+          },
+        },
+        containedPrimary: {
+          background: mode === 'dark' 
+            ? 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' 
+            : 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%)',
+          '&:hover': {
+            background: mode === 'dark' 
+              ? 'linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)' 
+              : 'linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%)',
           },
         },
       },
@@ -50,18 +61,20 @@ const getDesignTokens = (mode: 'light' | 'dark') => ({
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 16,
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          borderRadius: 24,
+          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
           background: mode === 'dark' 
-            ? alpha('#1e293b', 0.8) 
+            ? alpha('#0f172a', 0.4) 
             : alpha('#ffffff', 0.8),
-          backdropFilter: 'blur(12px)',
-          border: `1px solid ${mode === 'dark' ? alpha('#ffffff', 0.05) : alpha('#000000', 0.05)}`,
+          backdropFilter: 'blur(20px)',
+          border: `1px solid ${mode === 'dark' ? alpha('#ffffff', 0.08) : alpha('#000000', 0.05)}`,
+          overflow: 'hidden',
           '&:hover': {
-            transform: 'translateY(-4px)',
+            transform: 'translateY(-6px)',
             boxShadow: mode === 'dark' 
-              ? '0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)'
-              : '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+              ? '0 30px 60px -12px rgba(0, 0, 0, 0.5), 0 18px 36px -18px rgba(0, 0, 0, 0.5)'
+              : '0 30px 60px -12px rgba(0, 0, 0, 0.1), 0 18px 36px -18px rgba(0, 0, 0, 0.05)',
+            borderColor: mode === 'dark' ? alpha('#ffffff', 0.2) : alpha('#000000', 0.1),
           },
         },
       },
@@ -70,12 +83,19 @@ const getDesignTokens = (mode: 'light' | 'dark') => ({
       styleOverrides: {
         root: {
           background: mode === 'dark' 
-            ? alpha('#0f172a', 0.8) 
-            : alpha('#ffffff', 0.8),
-          backdropFilter: 'blur(12px)',
-          color: mode === 'dark' ? '#f1f5f9' : '#1e293b',
+            ? alpha('#020617', 0.7) 
+            : alpha('#ffffff', 0.7),
+          backdropFilter: 'blur(20px)',
+          color: mode === 'dark' ? '#f8fafc' : '#0f172a',
           boxShadow: 'none',
-          borderBottom: `1px solid ${mode === 'dark' ? alpha('#ffffff', 0.1) : alpha('#000000', 0.1)}`,
+          borderBottom: `1px solid ${mode === 'dark' ? alpha('#ffffff', 0.08) : alpha('#000000', 0.05)}`,
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundImage: 'none',
         },
       },
     },

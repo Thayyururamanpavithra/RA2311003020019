@@ -35,7 +35,7 @@ export const fetchNotifications = async (): Promise<Notification[]> => {
     
     return [];
   } catch (error) {
-    console.warn("API Fetch failed, using mock fallback:", error);
+    Log("frontend", "warn", "api", `API Fetch failed, using mock fallback: ${error instanceof Error ? error.message : String(error)}`);
     return MOCK_NOTIFICATIONS;
   }
 };
