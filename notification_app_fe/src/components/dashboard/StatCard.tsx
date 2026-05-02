@@ -1,0 +1,68 @@
+"use client";
+
+import React from 'react';
+import { Card, CardContent, Typography, Box, alpha } from '@mui/material';
+import type { SvgIconProps } from '@mui/material/SvgIcon';
+import { motion } from 'framer-motion';
+import { AnimatedCounter } from '../common/AnimatedCounter';
+
+interface StatCardProps {
+  title: string;
+  value: number;
+  icon: React.ComponentType<SvgIconProps>;
+  color: string;
+  delay?: number;
+}
+
+export const StatCard: React.FC<StatCardProps> = ({
+  title,
+  value,
+  icon: Icon,
+  color,
+  delay = 0,
+}) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay }}
+    >
+      <Card sx={{ height: '100%' }}>
+        <CardContent sx={{ display: 'flex', alignItems: 'center', p: 3 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 56,
+              height: 56,
+              borderRadius: '16px',
+              bgcolor: alpha(color, 0.1),
+              color: color,
+              mr: 3,
+            }}
+          >
+            <Icon sx={{ fontSize: 28 }} />
+          </Box>
+          <Box>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+                fontSize: '0.7rem',
+              }}
+            >
+              {title}
+            </Typography>
+            <Typography variant="h4" sx={{ fontWeight: 900 }}>
+              <AnimatedCounter value={value} />
+            </Typography>
+          </Box>
+        </CardContent>
+      </Card>
+    </motion.div>
+  );
+};

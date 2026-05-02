@@ -1,0 +1,14 @@
+{
+  "name": "logging_middleware",
+  "version": "1.0.0",
+  "description": "Logging middleware for campus notifications",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "typescript": "^5.0.0"
+  }
+}

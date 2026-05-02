@@ -1,0 +1,1 @@
+export declare const Log: (stack: "frontend" | "backend", level: "info" | "debug" | "error" | "warn", pkg: "api" | "component" | "hook" | "page" | "state" | "style" | "auth" | "config" | "middleware" | "utils", message: string) => Promise<void>;
