@@ -1,5 +1,7 @@
 # 🚀 Advanced Campus Notifications Microservice
 
+![Dashboard Preview](docs/assets/dashboard_preview.png)
+
 A high-performance, enterprise-grade notification system built with **Next.js 16**, **Material UI 6**, and **Framer Motion**. This microservice transforms standard alert management into a sophisticated executive dashboard with intelligent priority ranking and real-time analytics.
 
 ## ✨ Premium Features
