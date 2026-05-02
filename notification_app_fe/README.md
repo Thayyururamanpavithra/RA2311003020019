@@ -1,36 +1,23 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Campus Notifications Frontend
 
-## Getting Started
+This is the high-end frontend implementation for the Campus Notifications Microservice.
 
-First, run the development server:
+## 🌟 Advanced Frontend Features
+- **Custom Design System**: Built on MUI v6 with a specialized color palette and glassmorphism components.
+- **Skeleton Architecture**: Optimized loading sequences using MUI Skeletons for a fluid user experience.
+- **Real-time Polling**: Background synchronization every 30 seconds with automatic local state reconciliation.
+- **Persistent Preferences**: Local storage integration for theme settings and viewed notification history.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🏗️ Architecture
+- **`/src/app`**: Next.js App Router with optimized page layouts.
+- **`/src/components`**: Modular component library (Common, Dashboard, Notifications).
+- **`/src/context`**: Global state management via Context API.
+- **`/src/utils`**: Resilient API utilities with automated mock fallbacks.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔧 Scripts
+- `npm run dev`: Start the optimized development server.
+- `npm run build`: Generate a high-performance production bundle.
+- `npm run start`: Run the production-ready server.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🎨 Theme Implementation
+The application utilizes a sophisticated theme provider that manages dynamic CSS variables and MUI overrides to deliver a premium look and feel in both light and dark modes.
