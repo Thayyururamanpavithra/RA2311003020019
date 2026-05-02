@@ -2,6 +2,8 @@
 
 A responsive, feature-rich campus notification management platform built with Next.js and TypeScript. Students receive real-time updates on Placements, Events, and Results with an intelligent priority inbox system, analytics, and settings.
 
+**Project link**: `https://github.com/Thayyururamanpavithra/RA2311003020019` (branch: `main`)
+
 ## Features
 
 - Real-time updates with auto-refresh and countdown
