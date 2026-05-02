@@ -45,10 +45,12 @@ We use a hybrid approach:
 - **Optimistic Updates**: Immediate UI feedback for marking notifications as read.
 
 ### Priority Scoring Formula
-`Score = (BaseWeight × 100) + (RecencyScore × 1.0) + (KeywordUrgency × 50)`
-- **BaseWeight**: Static weight based on Type (Placement=3, Result=2, Event=1).
-- **RecencyScore**: A decaying linear factor (100 - age_in_hours).
-- **KeywordUrgency**: 50pt boost for messages containing critical keywords (e.g., "Deadline", "Urgent").
+Final Score (spec):
+
+`Score = (TypeWeight × 1000) + RecencyScore`
+
+- **TypeWeight**: Static weight based on Type (Placement=3, Result=2, Event=1).
+- **RecencyScore**: A 0–999 tiebreaker computed from timestamp *within the current fetched batch*, so newer items in the same type rank higher deterministically.
 
 ### Performance Optimizations
 - **Memoized Calculations**: All sorting and filtering are wrapped in `useMemo` to prevent UI jank during re-renders.
