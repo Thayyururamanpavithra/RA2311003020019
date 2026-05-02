@@ -47,4 +47,6 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:3000` (or the next available port if 3000 is in use).
+**Run link (local)**: `http://localhost:3000`
+
+If port `3000` is busy, Next.js will auto-pick another port (e.g. `3001`, `3002`) and print the exact URL in the terminal.
